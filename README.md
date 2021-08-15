@@ -24,7 +24,14 @@ You can test the lego client with `./lego -h` and it should print help text if w
 
 ### Download Scripts
 
-Either clone this project into `/config/scripts/lego`, or download the [`renew.sh`](renew.sh) and [`deploy.sh`](deploy.sh) scripts individually to the same directory.
+Either clone this project and copy the files into the EdgeRouter at `/config/scripts/lego`, or download the [`renew.sh`](renew.sh) and [`deploy.sh`](deploy.sh) scripts individually to the same directory.
+
+```
+$ cd /config/scripts/lego
+$ curl -L -O https://github.com/kpine/edgemax-lego/raw/main/renew.sh
+$ curl -L -O https://github.com/kpine/edgemax-lego/raw/main/deploy.sh
+$ chmod +x renew.sh deploy.sh
+```
 
 ## Configuration
 
@@ -87,3 +94,5 @@ $ configure
 ## Motivation
 
 I was previously using an acme.sh-based deployment script that I can no longer find the source of. I was looking at [hungnguyenm/edgemax-acme](https://github.com/hungnguyenm/edgemax-acme), which has provided some inspiration, but I wanted to use Lego instead.
+
+A downside to using Lego is the binary size is massive (~34MB) compared to acme.sh (~203KB). There are probably many others as well, so consider using [hungnguyenm/edgemax-acme](https://github.com/hungnguyenm/edgemax-acme) before you use this one.
