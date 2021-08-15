@@ -10,7 +10,6 @@ echo "Deploying certificates."
 mkdir -p /config/ssl
 mv /config/ssl/server.pem /config/ssl/server.pem.bak
 cat "$LEGO_CERT_KEY_PATH" "$LEGO_CERT_PATH" > /config/ssl/server.pem
-cat /tmp/server.key /tmp/full.cer > /config/ssl/server.pem
 
 echo "Restarting gui service."
 killall lighttpd
