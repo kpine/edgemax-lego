@@ -9,10 +9,15 @@ if [ -z "$LETSENCRYPT_EMAIL" ] || [ -z "$DOMAINS" ] || [ -z "$DNS_PROVIDER" ]; t
   exit 1
 fi
 
-[ "$1" = "run" ] && action="run" || action="renew"
+action="renew"
+[ "$1" = "run" ] && action="run"
 
-echo "Generating certificate"
-"$LEGO_HOME/lego" \
+server=
+[ -n "$USE_STAGING" ] && server="https://acme-staging-v02.api.letsencrypt.org/directory"
+
+echo "Generating certificate"\
+"$LEGO_HOME/lego"
+  ${server:+ --server="$server"} \
   --path "${LEGO_HOME}/data" \
   --accept-tos \
   --email "${LETSENCRYPT_EMAIL}" \
