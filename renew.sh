@@ -1,10 +1,9 @@
 #!/bin/sh
 
-export LEGO_HOME=/config/scripts/lego
-export LEGO_PATH="$LEGO_HOME/data"
+LEGO_HOME=/config/scripts/lego
 
 if [ ! -f "$LEGO_HOME/lego.cfg" ]; then
-  echo "DNS provider settings are missing"
+  echo "Settings file does not exist."
   exit 1
 fi
 
@@ -15,12 +14,14 @@ if [ -z "$LETSENCRYPT_EMAIL" ] || [ -z "$DOMAINS" ] || [ -z "$DNS_PROVIDER" ]; t
   exit 1
 fi
 
-action="renew"
-hook="--renew-hook"
-if [ "$1" = "run" ]; then
-  action="run"
-  hook="--run-hook"
-fi
+[ "$1" = "run" ] && action="run" || action="renew"
 
 echo "Generating certificate"
-"$LEGO_HOME/lego" --accept-tos --email "$LETSENCRYPT_EMAIL" --domains "$DOMAINS" --dns "$DNS_PROVIDER" "$action" "$hook" "$LEGO_HOME/deploy.sh"
+"$LEGO_HOME/lego" \
+  --path "${LEGO_HOME}/data" \
+  --accept-tos \
+  --email "${LETSENCRYPT_EMAIL}" \
+  --domains "${DOMAINS}" \
+  --dns "${DNS_PROVIDER}" \
+  "${action}" \
+  "--${action}-hook" "${LEGO_HOME}/deploy.sh"
