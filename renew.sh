@@ -15,5 +15,12 @@ if [ -z "$LETSENCRYPT_EMAIL" ] || [ -z "$DOMAINS" ] || [ -z "$DNS_PROVIDER" ]; t
   exit 1
 fi
 
-echo "Renewing certificate"
-"$LEGO_HOME/lego" --accept-tos --email "$LETSENCRYPT_EMAIL" --domains "$DOMAINS" --dns "$DNS_PROVIDER" renew --renew-hook "$LEGO_HOME/deploy.sh"
+action="renew"
+hook="--renew-hook"
+if [ "$1" = "run" ]; then
+  action="run"
+  hook="--run-hook"
+fi
+
+echo "Generating certificate"
+"$LEGO_HOME/lego" --accept-tos --email "$LETSENCRYPT_EMAIL" --domains "$DOMAINS" --dns "$DNS_PROVIDER" "$action" "$hook" "$LEGO_HOME/deploy.sh"
