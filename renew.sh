@@ -15,8 +15,8 @@ action="renew"
 server=
 [ -n "$USE_STAGING" ] && server="https://acme-staging-v02.api.letsencrypt.org/directory"
 
-echo "Generating certificate"\
-"$LEGO_HOME/lego"
+echo "Generating certificate"
+"$LEGO_HOME/lego" \
   ${server:+ --server="$server"} \
   --path "${LEGO_HOME}/data" \
   --accept-tos \
